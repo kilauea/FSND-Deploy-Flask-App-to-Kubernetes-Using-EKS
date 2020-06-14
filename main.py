@@ -1,6 +1,7 @@
 """
 A simple app to create a JWT token.
 """
+import sys
 import os
 import logging
 import datetime
@@ -93,7 +94,8 @@ def decode_jwt():
     token = str.replace(str(data), 'Bearer ', '')
     try:
         data = jwt.decode(token, JWT_SECRET, algorithms=['HS256'])
-    except: # pylint: disable=bare-except
+    except Exception as e: # pylint: disable=bare-except
+        print(sys.exc_info())
         abort(401)
 
 
@@ -111,4 +113,23 @@ def _get_jwt(user_data):
     return jwt.encode(payload, JWT_SECRET, algorithm='HS256')
 
 if __name__ == '__main__':
-    APP.run(host='127.0.0.1', port=8080, debug=True)
+    try:
+        # To use debug=True must remove exec permisions from main.py as follows:
+        # chmod -x main.py
+        APP.run(host='127.0.0.1', port=8080, debug=True)
+    except OSError as e:
+        print('OSError: %s' % str(e))
+    except Exception as e:
+        print(sys.exc_info())
+
+'''
+First install jq:
+- brew install jq
+Test the endpoints with:
+- /auth:
+  export TOKEN=`curl -d '{"email":"myemail@gmail.com","password":"#MyPassw0rd!"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8080/auth  | jq -r '.token'`
+  echo $TOKEN
+- /contents:
+  curl --request GET 'http://127.0.0.1:8080/contents' -H "Authorization: Bearer ${TOKEN}" | jq .
+
+'''
