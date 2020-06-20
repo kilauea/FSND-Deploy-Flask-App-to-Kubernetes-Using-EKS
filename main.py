@@ -124,7 +124,7 @@ if __name__ == '__main__':
 
 '''
 First install jq:
-- brew install jq
+- brew install jq 
 Test the endpoints with:
 - /auth:
   export TOKEN=`curl -d '{"email":"myemail@gmail.com","password":"#MyPassw0rd!"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8080/auth  | jq -r '.token'`
