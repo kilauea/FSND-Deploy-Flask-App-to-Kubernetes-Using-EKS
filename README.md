@@ -68,7 +68,10 @@ Create the Docker image
 
 Run the Docker image
 
-docker run -p 8080:8080 jwt-api-test
+``` shell
+docker build --tag jwt-api-test .
+docker run -rm -p 8080:8080 jwt-api-test
+```
 
 In a new console:
 
@@ -153,4 +156,20 @@ kubectl get -n kube-system configmap/aws-auth -o yaml > /tmp/aws-auth-patch.yml
 kubectl patch configmap/aws-auth -n kube-system --patch "$(cat /tmp/aws-auth-patch.yml)"
 ```
 
-7ff395c5488ab658a611886d76c0396bf820e6b7
+### AWS eu-west-3 url's
+
+* [Cloud Formation Console](https://eu-west-3.console.aws.amazon.com/cloudformation/home?region=eu-west-3#/)
+
+* [E2C Console](https://eu-west-3.console.aws.amazon.com/ec2/v2/home?region=eu-west-3#Home:)
+
+* [Code Pipeline](https://eu-west-3.console.aws.amazon.com/codesuite/codepipeline/pipelines?pipelines-meta=%7B%22f%22%3A%7B%22text%22%3A%22%22%7D%2C%22s%22%3A%7B%22property%22%3A%22updated%22%2C%22direction%22%3A-1%7D%2C%22n%22%3A10%2C%22i%22%3A0%7D&region=eu-west-3#)
+
+* [IAM Console](https://console.aws.amazon.com/iam/home?#/home)
+
+* [VPC](https://eu-west-3.console.aws.amazon.com/vpc/home?region=eu-west-3#)
+
+## Delete EKS Cluster error
+
+* Check the Load Balancers in [E2C Console](https://eu-west-3.console.aws.amazon.com/ec2/v2/home?region=eu-west-3#Home:) and delete if any left
+
+* Once the Load Balancer is deleted, delete the VPC manually
